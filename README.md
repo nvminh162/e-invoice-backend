@@ -11,19 +11,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx serve e-invoice-backend
+npx nx serve e-invoice
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build e-invoice-backend
+npx nx build e-invoice
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project e-invoice-backend
+npx nx show project e-invoice
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.

@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "master",
-  "analytics": false,
+  "analytics": true,
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -39,7 +39,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/e-invoice-backend-e2e/**/*", "apps/bff-e2e/**/*"]
+      "exclude": ["apps/e-invoice-e2e/**/*", "apps/bff-e2e/**/*"]
     }
   ]
 }

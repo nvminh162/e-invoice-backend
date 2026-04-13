@@ -1,5 +1,5 @@
 export default {
-  displayName: 'e-invoice-backend-e2e',
+  displayName: 'e-invoice-e2e',
   preset: '../../jest.preset.js',
   globalSetup: '<rootDir>/src/support/global-setup.ts',
   globalTeardown: '<rootDir>/src/support/global-teardown.ts',
@@ -14,5 +14,5 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/e-invoice-backend-e2e',
+  coverageDirectory: '../../coverage/e-invoice-e2e',
 };

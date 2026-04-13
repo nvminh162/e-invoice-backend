@@ -1,7 +1,7 @@
 {
-  "name": "e-invoice-backend",
+  "name": "e-invoice",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/e-invoice-backend/src",
+  "sourceRoot": "apps/e-invoice/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "options": {
         "command": "webpack-cli build",
         "args": ["--node-env=production"],
-        "cwd": "apps/e-invoice-backend"
+        "cwd": "apps/e-invoice"
       },
       "configurations": {
         "development": {
@@ -23,8 +23,8 @@
       "cache": true,
       "executor": "@nx/js:prune-lockfile",
       "outputs": [
-        "{workspaceRoot}/dist/apps/e-invoice-backend/package.json",
-        "{workspaceRoot}/dist/apps/e-invoice-backend/package-lock.json"
+        "{workspaceRoot}/dist/apps/e-invoice/package.json",
+        "{workspaceRoot}/dist/apps/e-invoice/package-lock.json"
       ],
       "options": {
         "buildTarget": "build"
@@ -33,9 +33,7 @@
     "copy-workspace-modules": {
       "dependsOn": ["build"],
       "cache": true,
-      "outputs": [
-        "{workspaceRoot}/dist/apps/e-invoice-backend/workspace_modules"
-      ],
+      "outputs": ["{workspaceRoot}/dist/apps/e-invoice/workspace_modules"],
       "executor": "@nx/js:copy-workspace-modules",
       "options": {
         "buildTarget": "build"
@@ -51,15 +49,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "e-invoice-backend:build",
+        "buildTarget": "e-invoice:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "e-invoice-backend:build:development"
+          "buildTarget": "e-invoice:build:development"
         },
         "production": {
-          "buildTarget": "e-invoice-backend:build:production"
+          "buildTarget": "e-invoice:build:production"
         }
       }
     },
