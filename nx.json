@@ -39,7 +39,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/e-invoice-backend-e2e/**/*"]
+      "exclude": ["apps/e-invoice-backend-e2e/**/*", "apps/bff-e2e/**/*"]
     }
   ]
 }
