@@ -1,101 +1,168 @@
-# EInvoiceBackend
+# E-Invoice Backend (Microservices NestJS)
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A backend system for **Electronic Invoicing (E-Invoice)** built with a **microservices** architecture using **NestJS** in an **Nx Monorepo**.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+This repository focuses on:
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- BFF (API Gateway / Backend-for-Frontend)
+- Authorization / User Access (AuthN/AuthZ)
+- Invoice service (invoice domain/business logic)
+- PDF Generator (render invoices to PDF)
+- Media service (upload/store files)
+- Mail service (send emails / invoice delivery)
+- (Optional) Product service (product/catalog data)
 
-## Run tasks
+## Tech Stack
 
-To run the dev server for your app, use:
+- **Language:** TypeScript
+- **Framework:** NestJS
+- **Monorepo:** Nx
+- **Microservices:** NestJS Microservices (TCP), extensible to gRPC
+- **Messaging/Event bus:** Kafka (kafkajs)
+- **Databases:** PostgreSQL (TypeORM), MongoDB (Mongoose)
+- **Cache/Rate limiting:** Redis + cache-manager
+- **Observability:** OpenTelemetry + Prometheus + Pino (optional Loki)
+- **Docs:** Swagger / OpenAPI
+- **PDF:** Puppeteer
+- **Container:** Docker / Docker Compose
 
-```sh
-npx nx serve e-invoice
+## Repository Structure
+
+```txt
+apps/
+  bff/              # API Gateway / BFF
+  authorizer/       # Authorization service
+  user-access/      # User & access management
+  invoice/          # Invoice domain service
+  pdf-generator/    # Generate invoice PDFs
+  media/            # Upload/serve media files
+  mail/             # Email service
+  product/          # (optional) Product service
+libs/
+  common/           # Shared utilities (logger, observability, etc.)
+  configuration/    # Shared configuration
+  constants/        # Shared constants
+docker/
+  ...               # Docker configs (providers, observability, etc.)
 ```
 
-To create a production bundle:
+## Prerequisites
 
-```sh
-npx nx build e-invoice
+- Node.js (recommended LTS)
+- npm
+- Docker + Docker Compose (for local providers like DB/Kafka/Redis)
+
+## Getting Started
+
+### 1) Install dependencies
+
+```bash
+npm install
 ```
 
-To see all available targets to run for a project, run:
+### 2) Create environment file
 
-```sh
-npx nx show project e-invoice
+Create `.env` from `.env.example`:
+
+```bash
+cp .env.example .env
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+> Tip: You can split env files per service (e.g., `.env.invoice`, `.env.bff`) if preferred.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 3) Start infrastructure (DB/Kafka/Redis, ...)
 
-## Add new projects
+If your repo includes a providers compose file:
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/nest:app demo
+```bash
+docker compose -f docker-compose.provider.yaml up -d
 ```
 
-To generate a new library, use:
+### 4) Run services (dev)
 
-```sh
-npx nx g @nx/node:lib mylib
+If you have equivalent scripts in `package.json`:
+
+```bash
+npm run dev
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+Run a “lite” set of services:
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+```bash
+npm run dev-lite
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+Run local (start providers + dev):
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+```bash
+npm run dev-local
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 5) Run a single service
 
-## Install Nx Console
+Example: run the invoice service
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```bash
+npx nx serve invoice
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+List available targets for a project:
 
-## Useful links
+```bash
+npx nx show project invoice
+```
 
-Learn more:
+## API Documentation (Swagger)
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Each HTTP service typically exposes Swagger at:
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- `http://localhost:<PORT>/<GLOBAL_PREFIX>/docs`
+
+Example (depends on your config):
+
+- `http://localhost:3000/api/docs`
+
+## Microservices Communication
+
+Some services run **HTTP** and also connect as **NestJS microservices** via **TCP** (Transport.TCP).
+
+Typical flow:
+
+- BFF receives requests from the client
+- It calls domain services (invoice/user-access/authorizer/...) via TCP/gRPC or internal HTTP
+- Invoice service publishes events (Kafka) consumed by other services (mail/pdf/media)
+
+## Observability
+
+- Tracing: OpenTelemetry (OTLP exporters)
+- Metrics: Prometheus
+- Logging: Pino (optional Loki)
+
+## Testing
+
+```bash
+npx nx test invoice
+```
+
+E2E (if available):
+
+```bash
+npx nx e2e einvoice-e2e
+```
+
+## Roadmap / TODO
+
+- [ ] Standardize auth flow (JWT + JWKS)
+- [ ] Event-driven invoice lifecycle (Kafka topics)
+- [ ] PDF template system + versioning
+- [ ] Multi-tenant / organization support
+- [ ] CI pipeline (lint/test/build) with GitHub Actions
+- [ ] Add diagrams (C4 / sequence)
+
+## Contributing
+
+PRs/issues are welcome. Please follow conventional commits.
+
+## License
+
+MIT (or your choice)
