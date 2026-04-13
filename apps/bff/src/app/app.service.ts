@@ -4,8 +4,8 @@ import { log } from 'console';
 
 @Injectable()
 export class AppService {
-  getData(): { message: string } {
-    log(PORT);
-    return { message: 'Hello API' };
-  }
+    getData(): { message: string } {
+        log(PORT);
+        return { message: 'Hello API' };
+    }
 }
