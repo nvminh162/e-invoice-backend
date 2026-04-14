@@ -12,6 +12,12 @@ This repository focuses on:
 - Mail service (send emails / invoice delivery)
 - (Optional) Product service (product/catalog data)
 
+## Commitlint rule
+
+- Format bắt buộc: `<type>/#<scope>: <subject>` (ví dụ: `feat/#auth: add jwt login flow`).
+- `type` chỉ được dùng: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `revert`.
+- Quy tắc độ dài: header từ 10-160 ký tự, mỗi dòng body tối đa 120 ký tự.
+
 ## Tech Stack
 
 - **Language:** TypeScript
