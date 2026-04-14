@@ -8,7 +8,7 @@
         "nx:run-many": "nx run-many",
         "docker:start:provider": "docker compose -f docker-compose.provider.yaml up -d",
         "dev": "npm run nx:reset && npm run nx:run-many -- -t serve",
-        "dev-lite": "npm run dev -- --projects=bff,user-access,authorizer,invoice,pdf-generator,media,mail",
+        "dev-lite": "npm run dev -- --projects=bff",
         "dev-local": "npm run docker:start:provider && npm run dev"
     },
     "private": true,
